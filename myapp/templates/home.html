@@ -1,0 +1,15 @@
+<!-- myapp/templates/home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+    <h1>Welcome to PTJ Sports</h1>
+    <a href="{% url 'addracepicks' %}">
+        <img src="{% static 'favicon.ico' %}" alt="Go to Add Race Picks">
+    </a>
+</body>
+</html>

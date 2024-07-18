@@ -1,0 +1,18 @@
+<!-- templates/add_race_picks.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+Add Race Picks
+{% endblock %}
+
+{% block content %}
+<h1>Add Race Picks</h1>
+<p>User: {{ user.username }}</p> <!-- Muestra el nombre del usuario -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'logout' %}">Log Out</a> <!-- Botón de Log Out -->
+{% endblock %}
+

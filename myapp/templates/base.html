@@ -1,0 +1,13 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Project{% endblock %}</title>
+    {% load static %} <!-- Cargar la biblioteca estática -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
