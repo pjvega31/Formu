@@ -1,14 +1,20 @@
 from pathlib import Path
+import os
+import dj_database_url
 
+# Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-q!e$5h79$@o6c-57p0-h)ovdc2ybe9q=8378_a(!gwl7h&v3_m'
+# Secret key (use environment variable for security)
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-q!e$5h79$@o6c-57p0-h)ovdc2ybe9q=8378_a(!gwl7h&v3_m')
 
-DEBUG = True
+# Debug mode (disable in production)
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ptjsports.com', '140.174.254.41', '192.168.4.105', 'e012-140-174-254-41.ngrok-free.app']
+# Allowed hosts (accept specific domains)
+ALLOWED_HOSTS = ['www.ptjsports.com', 'ptjsports.com']
 
-
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -22,9 +28,11 @@ INSTALLED_APPS = [
     'django_extensions',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Added for serving static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -33,8 +41,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# URL configuration
 ROOT_URLCONF = 'myproject.urls'
 
+# Templates configuration
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -51,15 +61,19 @@ TEMPLATES = [
     },
 ]
 
+# WSGI application
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
+# Database configuration (PostgreSQL for Railway)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR}/db.sqlite3',  # Fallback to SQLite if DATABASE_URL is not set
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -75,6 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -83,15 +98,20 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+# Static files configuration
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'myapp' / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# CORS headers configuration
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+# Login/Logout URLs
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/addracepicks/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
