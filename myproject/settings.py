@@ -9,10 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-q!e$5h79$@o6c-57p0-h)ovdc2ybe9q=8378_a(!gwl7h&v3_m')
 
 # Debug mode (disable in production)
-DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in ('true', '1')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-# Allowed hosts
-ALLOWED_HOSTS = ['www.ptjsports.com', 'ptjsports.com', '127.0.0.1', 'localhost']
+# Allowed hosts (adjust as needed)
+ALLOWED_HOSTS = ['www.ptjsports.com', 'ptjsports.com']
 
 # Installed apps
 INSTALLED_APPS = [
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Added for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,7 +64,7 @@ TEMPLATES = [
 # WSGI application
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-# Database configuration
+# Database configuration (PostgreSQL for Railway)
 DATABASES = {
     'default': dj_database_url.config(
         conn_max_age=600,
@@ -77,18 +77,10 @@ if 'DATABASE_URL' not in os.environ:
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # Internationalization
@@ -104,24 +96,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'myapp' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS headers configuration
 CORS_ALLOWED_ORIGINS = [
-    "https://www.ptjsports.com",
     "http://localhost:3000",
 ]
-
-# Security settings for production
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
 
 # Login/Logout URLs
 LOGIN_URL = '/accounts/login/'
