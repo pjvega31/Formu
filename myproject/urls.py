@@ -1,5 +1,3 @@
-# myproject/urls.py
-
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
@@ -26,5 +24,5 @@ urlpatterns = [
     path('addracepicks/', AddRacePicksView.as_view(), name='addracepicks'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/accounts/login/'), name='logout'),
-    path('', HomePageView.as_view(), name='home'),  # Añadir esta línea
+    path('', HomePageView.as_view(), name='home'),  # Página principal
 ]

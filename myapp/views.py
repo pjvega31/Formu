@@ -56,7 +56,7 @@ class AddRacePicksView(View):
             race_pick = form.save(commit=False)
             race_pick.user = request.user  # Asigna el usuario actual
             race_pick.save()
-            return redirect('success_url')  # Cambia 'success_url' al nombre de tu URL de éxito
+            return redirect('home')  # Cambié 'success_url' por 'home' como ejemplo
         return render(request, 'add_race_picks.html', {'form': form})
 
 class HomePageView(View):
